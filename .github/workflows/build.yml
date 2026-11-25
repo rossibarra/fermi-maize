@@ -1,0 +1,66 @@
+name: Build site and PDF
+
+# Builds index.html and the PDF from content.md.
+# Pushes to main are deployed to GitHub Pages; pull requests get a downloadable preview.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pandoc and the Roboto font
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-roboto
+          wget -q https://github.com/jgm/pandoc/releases/download/3.1.3/pandoc-3.1.3-1-amd64.deb
+          sudo dpkg -i pandoc-3.1.3-1-amd64.deb
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Playwright and Chromium
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Build HTML and PDF
+        run: python scripts/build.py
+
+      - name: Upload preview (web page + PDF)
+        uses: actions/upload-artifact@v4
+        with:
+          name: fermi-maize-preview
+          path: _site
+
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

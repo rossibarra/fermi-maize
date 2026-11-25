@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Generated from content.md by scripts/build.py. Edit content.md, not this file. -->
+<title>$pagetitle$</title>
+<meta name="description" content="$description$">
+<meta property="og:title" content="$pagetitle$">
+<meta property="og:description" content="$description$">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+  @page { size: letter; margin: 11mm 12mm 13mm 12mm; }
+  :root { --green: #1e5b2e; --rule: #cfd8cf; --fs1: 9.6pt; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: Roboto, "Inter", "Helvetica Neue", Arial, sans-serif; color: #111; line-height: 1.3; }
+  i, em { font-style: italic; }
+  sup, sub { line-height: 0; font-size: 72%; }
+  .citation sup { color: var(--green); font-size: 62%; font-weight: 500; margin-left: 1px; }
+  .citation a { color: inherit; text-decoration: none; }
+  /* ---------- PDF layout (scripts/render_pdf.py adds class "pdf" to <body>) ---------- */
+  body.pdf { font-size: 9pt; }
+  body.pdf .page { break-after: page; page-break-after: always; }
+  body.pdf .page:last-child { break-after: auto; page-break-after: auto; }
+  /* each page is a fixed-height box; fitAll() scales its font to fill it */
+  body.pdf #p1, body.pdf #p2, body.pdf #p3 { height: 253mm; overflow: hidden; display: flex; flex-direction: column; }
+  body.pdf .grow { flex: 1 1 auto; }
+  body.pdf .web-only { display: none !important; }
+  /* ---------- web layout ---------- */
+  body:not(.pdf) { background: #eef2ee; font-size: 16px; line-height: 1.45; }
+  body:not(.pdf) .grow { display: none; }
+  body:not(.pdf) .page { background: #fff; max-width: 980px; margin: 1.25rem auto; padding: 2rem 2.5rem;
+                         border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  body:not(.pdf) #p1 h1 { font-size: 2em; }
+  body:not(.pdf) .tablewrap { overflow-x: auto; }
+  body:not(.pdf) td, body:not(.pdf) th { padding: 0.4em 0.6em; }
+  body:not(.pdf) li { margin: 0.3em 0; }
+  body:not(.pdf) .example { padding: 0.8em 1em; margin-bottom: 1em; }
+  .topbar { max-width: 980px; margin: 1.25rem auto 0; padding: 0 0.25rem; display: flex; gap: 0.75rem; justify-content: flex-end; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 0.5em 1em; border-radius: 4px; font-weight: 700; text-decoration: none; font-size: 0.92em; }
+  .btn.primary { background: var(--green); color: #fff; }
+  .btn.primary:hover { background: #174a25; }
+  .btn.ghost { color: var(--green); border: 1px solid var(--green); background: #fff; }
+  .sitefoot { max-width: 980px; margin: 0 auto 2rem; padding: 0 0.25rem; font-size: 0.85em; color: #555; }
+  .sitefoot a { color: var(--green); }
+  @media (max-width: 700px) {
+    body:not(.pdf) .page { padding: 1.25rem 1rem; margin: 0.75rem 0.25rem; }
+    body:not(.pdf) #refs { columns: 1; }
+    /* stack the Top 10 table into cards on narrow screens */
+    body:not(.pdf) table, body:not(.pdf) tbody, body:not(.pdf) tr, body:not(.pdf) td { display: block; width: 100% !important; }
+    body:not(.pdf) thead { display: none; }
+    body:not(.pdf) tr { border-bottom: 1px solid var(--rule); padding: 0.4em 0; }
+    body:not(.pdf) td { border: 0; padding: 0.1em 0.2em; }
+    body:not(.pdf) td:first-child { color: var(--green); }
+    body:not(.pdf) td:nth-child(2)::before { content: "Fermi: "; font-weight: 700; }
+    body:not(.pdf) td:nth-child(3)::before { content: "Range: "; font-weight: 700; }
+  }
+  @media print { body:not(.pdf) { background: #fff; } body:not(.pdf) .web-only { display: none; } }
+  h1 { font-size: 1.75em; color: var(--green); margin: 0 0 0.15em 0; font-weight: 700; letter-spacing: -0.01em;
+       border-bottom: 2px solid var(--green); padding-bottom: 0.12em; }
+  h2 { font-size: 1.02em; color: var(--green); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700;
+       margin: 0.75em 0 0.3em 0; border-bottom: 1px solid var(--rule); padding-bottom: 0.1em; }
+  table { width: 100%; border-collapse: collapse; margin: 0; }
+  p { margin: 0.4em 0; }
+  th { background: var(--green); color: #fff; text-align: left; font-weight: 700; padding: 0.22em 0.45em; }
+  td { padding: 0.26em 0.45em; vertical-align: top; border-bottom: 1px solid var(--rule); }
+  td:first-child { font-weight: 700; width: 30%; }
+  td:nth-child(2) { width: 27%; }
+  ul { margin: 0; padding-left: 1.05em; }
+  li { margin: 0.12em 0; }
+  li::marker { color: var(--green); }
+  .timeline li { margin: 0.18em 0; }
+  .arrow { color: var(--green); font-weight: 700; padding: 0 0.15em; }
+  /* notes and references */
+  
+  #p2 ul li { margin: 0.25em 0; }
+  code { overflow-wrap: anywhere; font-family: "DejaVu Sans Mono", monospace; font-size: 0.86em; background: #eef2ee; padding: 0 0.2em; border-radius: 2px; }
+  #refs { columns: 2; column-gap: 1.8em; font-size: 0.92em; }
+  #refs .csl-entry { display: flex; break-inside: avoid; margin: 0 0 0.22em 0; }
+  #refs .csl-left-margin { flex: 0 0 1.9em; text-align: right; padding-right: 0.4em; }
+  #refs .csl-right-inline { flex: 1 1 auto; }
+  #refs a { color: inherit; text-decoration: none; }
+  #p2 > h2:first-child { margin-top: 0; }
+  /* worked examples */
+  #p3 { line-height: 1.38; }
+  .lede { display: block; font-style: italic; color: #444; margin: 0.1em 0 0.6em 0; }
+  #p3 p { margin: 0.1em 0 0.6em 0; }
+  .example { margin: 0 0 0.75em 0; padding: 0.45em 0.6em 0.5em 0.7em; border-left: 3px solid var(--green); background: #f6f8f6; break-inside: avoid; }
+  .example h4 { font-size: 1em; font-weight: 700; color: var(--green); margin: 0 0 0.2em 0; }
+  .example p { margin: 0.15em 0 0.25em 0 !important; }
+  math { font-size: 1.12em; math-style: normal; }
+  .example math { vertical-align: middle; }
+</style>
+</head>
+<body>
+<nav class="topbar web-only">
+  <a class="btn primary" href="fermi-maize-cheatsheet.pdf" download>Download PDF</a>
+  <a class="btn ghost" href="https://github.com/rossibarra/fermi-maize">Edit on GitHub</a>
+</nav>
+
+$body$
+
+<footer class="sitefoot web-only">
+<p><b>Cite as:</b> Ross-Ibarra J (2026). <i>Maize Population Genetics — Fermi Math Cheatsheet.</i> <a href="https://github.com/rossibarra/fermi-maize">github.com/rossibarra/fermi-maize</a></p>
+<p>Content © 2026 Jeffrey Ross-Ibarra and contributors, licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Corrections and additions welcome: edit <a href="https://github.com/rossibarra/fermi-maize/blob/main/content.md">content.md</a> and open a pull request, or file an <a href="https://github.com/rossibarra/fermi-maize/issues">issue</a>.$if(build_date)$ Built $build_date$.$endif$</p>
+</footer>
+
+<script>
+// Used only when rendering the PDF (scripts/build.py adds class "pdf" to <body>):
+// scale each page's font so its content fills the fixed-height page.
+window.fitPage = function (id, lo, hi) {
+  const box = document.getElementById(id);
+  let grow = box.querySelector(':scope > .grow');
+  if (!grow) { grow = document.createElement('div'); grow.className = 'grow'; box.appendChild(grow); }
+  for (let k = 0; k < 25; k++) {
+    const mid = (lo + hi) / 2;
+    box.style.fontSize = mid + 'pt';
+    if (box.scrollHeight > box.clientHeight + 0.5 || grow.offsetHeight < 2) hi = mid; else lo = mid;
+  }
+  box.style.fontSize = lo + 'pt';
+  return lo;
+};
+window.fitAll = function () {
+  return [window.fitPage('p1', 6, 13), window.fitPage('p2', 6, 10), window.fitPage('p3', 7, 12)];
+};
+</script>
+</body>
+</html>
